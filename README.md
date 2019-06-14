@@ -32,6 +32,8 @@ output contain 2 lines
 first line start with "routing result: ", follow by the path of postman.
 second line start with "total cost: ", follow by the total cost of all edge in above path.
 see example for more detail.
+
+note: you probably will see some fake-mininet output, just ignore them.
 ```
 
 #### png 
@@ -227,11 +229,12 @@ void findEulerCircuit(Vertex *x)
 }
 ```
 
-最後將記錄好的邊一一取出計算其成本，其中新加入的邊要拆開成對應的最短路徑
+最後將記錄好的邊一一取出計算其成本，其中新加入的邊(flowval < 0)要拆開成對應的最短路徑
 
 ```C++
 for (auto iter = resultEdge.begin(); iter != resultEdge.end(); ++iter)
     if(e->flowval > 0) {
+        cout << " -> " << e->tail->name;
         totCost += e->flowval;
         if(resultEdgeHead == NULL) {
             resultEdgeHead = new Edge(e);
@@ -243,6 +246,9 @@ for (auto iter = resultEdge.begin(); iter != resultEdge.end(); ++iter)
         resultEdgeList->cap = cnt++;
     } else {
         for(int i = 1; i < spMap[e->head->name][e->tail->name].size(); i++) {
+            string zz = spMap[e->head->name][e->tail->name][i].first;
+            int zLen = spMap[e->head->name][e->tail->name][i].second;
+            cout << " -> " << zz;
             ...
             int zLen = spMap[e->head->name][e->tail->name][i].second
             ...
@@ -252,8 +258,6 @@ for (auto iter = resultEdge.begin(); iter != resultEdge.end(); ++iter)
         totCost -= e->flowval;
     }
 
-for(Edge *e = resultEdgeHead; e; e = e->next)
-    cout << e->head->name << " -> " << e->tail->name <<endl;
 ```
 
 將結果輸出至 dotfile
