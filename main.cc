@@ -68,6 +68,7 @@ int main(int argc, char** argv)
     for(Edge *tmp = nm->elist; tmp; tmp = tmp->next) {
         diff[tmp->head]--;
         diff[tmp->tail]++;
+        tmp->flowval = tmp->cap;
         tmp->cap = 1;
         vlist[tmp->head].push_back(tmp);
     }
