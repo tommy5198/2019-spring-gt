@@ -1,82 +1,30 @@
 # Graph-Theory-Project-Template
-Project template of course - Graph Theory (EE6622E) in National Cheng Kung University.
+Project of course - Graph Theory (EE6622E) in National Cheng Kung University.
 
-## How to run
-
-### Linux
+## Usage
 
 ```
-# clone first (with submodule)
-$ git clone --recursive https://github.com/<your-name>/Graph-Theory-Project-Template.git
-# (Option) build libfakemn.a
-$ cd fake-mininet && make lib && cd .. && cp fake-mininet/libfakemn.a .
-# build
-$ make 
-# run 
-$ ./main.out
+$ make                                          # build program.
+$ ./main.out <input_file> <output_dotfile>      # output_file will create with additional .dot suffix.
+$ dot -Tpng <dotfile> -o <png_filename>         # optional: create png from output dotfile.
 ```
 
-### Windows
+## Chinese postman problem 
 
-If your PC is `window 10`, then you need to install the related dependencies. For example, if you are using `VSCode` as your IDE, then you can install the plugin of `C/C++` in your vscode. And then install the following programs/packages:
-* mingw
-* git
+Find a shortest closed path or circuit that visits every edge of a directed graph
 
-Step by step to create `c_cpp_properties.json` and `tasks.json`:
-* `Ctrl+Shift+P` -> `C/C++: Edit Configuration` -> then you have the first JSON file.
-* `Ctrl+Shift+P` -> `Tasks: Configure Task` -> then you have the second JSON file.
+### input format
 
-Here is the setting of `c_cpp_properties.json` and `tasks.json`:
-```json
-# c_cpp_properties.json (If your mingw installed in another folder, then you have to change the value in `compilterPath`)
-{
-    "configurations": [
-        {
-            "name": "MinGW",
-            "intelliSenseMode": "gcc-x64",
-            "includePath": [
-                "$(workspaceFolder)"
-            ],
-            "compilerPath": "C:/mingw/bin/gcc.exe",
-            "cStandard": "c11",
-            "cppStandard": "c++11"
-        }
-    ],
-    "version": 4
-}
+input should be a file contains multiple lines,
+each line contains three element A, B, L sperated by a whitespace
+a line "A B L" mean A has a unidirectionally connect to B with cost L
+A and B are alphabet string represented as vertex in grpah
+L is an interger number and should not exceed 10^5 
 
-# tasks.json
-{
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build",
-            "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g",
-                "main.cc",
-                "-o",
-                "main.exe",
-                "-Ifake-mininet/lib",
-                "-g3",
-                "-L.",
-                "-lfakemn_win",
-                "-std=c++11"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
-    ]
-}
-```
+### output format
 
-After all the settings have been done, we can press `Ctrl+Shift+B` to run the task, if your settings is correct, then there will have an executable file which named `main.exe`.
+### example
 
-Or you can just [DOWNLOAD a pre-built VM images](http://gofile.me/39GpL/XU5tznyO6) provided by TA.
-
-> [Guide of environment setting](https://hackmd.io/-5WZQC-1QqOeV3KUX65tEw?view) on Windows.
-
-## TODO - Your descriptions about solutions/algorithms/results
+## Algorithm description
+    
+    
