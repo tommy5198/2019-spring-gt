@@ -40,6 +40,7 @@ note: you probably will see some fake-mininet output, just ignore them.
 
 ```
 each edge have 2 value describe as (x) y, x means edge cost, y means the order of postman walk.
+each box represent the Vertex in original graph(ignore type!).
 ```
 
 ### example
