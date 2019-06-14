@@ -1,4 +1,4 @@
-# Graph-Theory-Project-Template
+# Graph-Theory-Project
 Project of course - Graph Theory (EE6622E) in National Cheng Kung University.
 
 ## Usage
@@ -15,15 +15,37 @@ Find a shortest closed path or circuit that visits every edge of a directed grap
 
 ### input format
 
+```
 input should be a file contains multiple lines,
 each line contains three element A, B, L sperated by a whitespace
 a line "A B L" mean A has a unidirectionally connect to B with cost L
 A and B are alphabet string represented as vertex in grpah
 L is an interger number and should not exceed 10^5 
+```
 
 ### output format
 
+#### stdout
+
+```
+output contain 2 lines
+first line start with "routing result: ", follow by the path of postman.
+second line start with "total cost: ", follow by the total cost of all edge in above path.
+see example for more detail.
+```
+
+#### png 
+
+each edge have 2 value describe as (x) y, x means edge cost, y means the order of postman walk.
+
 ### example
+
+```
+routing result: a -> b -> c -> d -> b -> c -> e -> f -> c -> a
+total cost: 38
+```
+
+![](/test4.png)
 
 ## Algorithm description
     
