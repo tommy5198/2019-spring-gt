@@ -13,6 +13,7 @@
 #include <set>
 #include <queue>
 #include <deque>
+#include <utility>
 
 using namespace std;
 
@@ -22,7 +23,7 @@ using namespace std;
 NetworkManager *nm;
 deque<Edge *> resultEdge;
 map<Vertex *, vector<Edge *>> vlist;
-    map<string, map<string, vector<string>>> spMap;
+    map<string, map<string, vector<pair<string, int>>>> spMap;
 
 void findEulerCircuit(Vertex *x)
 {
@@ -100,11 +101,11 @@ int main(int argc, char** argv)
                 int minL = MAX;
                 for(int i = 0; i < sp->paths.size(); i++) {
                     int tmpL = 0;
-                    vector<string> v;
-                    v.push_back(cur->name);
+                    vector<pair<string, int>> v;
+                    v.push_back(make_pair(cur->name, 0));
                     for(int j = 0; j < sp->paths.at(i).size(); j++) {
                         tmpL += sp->paths.at(i).at(j)->flowval;
-                        v.push_back(sp->paths[i][j]->tail->name);
+                        v.push_back(make_pair(sp->paths[i][j]->tail->name, sp->paths[i][j]->flowval));
                     }
                     if(minL > tmpL) {
                         spMap[cur->name][sec->name].assign(v.begin(), v.end());
@@ -143,11 +144,11 @@ int main(int argc, char** argv)
                 int minL = MAX;
                 for(int i = 0; i < sp->paths.size(); i++) {
                     int tmpL = 0;
-                    vector<string> v;
-                    v.push_back(sec->name);
+                    vector<pair<string, int>> v;
+                    v.push_back(make_pair(cur->name, 0));
                     for(int j = 0; j < sp->paths.at(i).size(); j++) {
                         tmpL += sp->paths.at(i).at(j)->flowval;
-                        v.push_back(sp->paths[i][j]->tail->name);
+                        v.push_back(make_pair(sp->paths[i][j]->tail->name, sp->paths[i][j]->flowval));
                     }
                     if(minL > tmpL) {
                         spMap[sec->name][cur->name].assign(v.begin(), v.end());
@@ -248,6 +249,7 @@ int main(int argc, char** argv)
 
     resultEdge.clear();
     int totCost = 0;
+    int cnt = 1;
     Edge *resultEdgeHead = NULL;
     Edge *resultEdgeList;
 
@@ -261,26 +263,35 @@ int main(int argc, char** argv)
         if(e->flowval > 0) {
             cout << " -> " << e->tail->name;
             totCost += e->flowval;
-                if(resultEdgeHead == NULL) {
-                    resultEdgeHead = new Edge(e);
-                    resultEdgeList = resultEdgeHead;
-                } else {
-                    resultEdgeList->next = new Edge(e);
-                    resultEdgeList = resultEdgeList->next;
-                }
+            if(resultEdgeHead == NULL) {
+                resultEdgeHead = new Edge(e);
+                resultEdgeList = resultEdgeHead;
+            } else {
+                resultEdgeList->next = new Edge(e);
+                resultEdgeList = resultEdgeList->next;
+            }
+            resultEdgeList->cap = cnt++;
         } else {
+            string pre = spMap[e->head->name][e->tail->name][0].first;
             for(int i = 1; i < spMap[e->head->name][e->tail->name].size(); i++) {
-                string zz = spMap[e->head->name][e->tail->name][i];
+                string zz = spMap[e->head->name][e->tail->name][i].first;
+                int zLen = spMap[e->head->name][e->tail->name][i].second;
                 cout << " x-> " << zz;
-                /*
+                
                 if(resultEdgeHead == NULL) {
-                    resultEdgeHead = new Edge(zz);
+                    resultEdgeHead = new Edge();
                     resultEdgeList = resultEdgeHead;
                 } else {
-                    resultEdgeList->next = new Edge(zz);
+                    resultEdgeList->next = new Edge();
                     resultEdgeList = resultEdgeList->next;
                 }
-                */
+                resultEdgeList->head = new Vertex();
+                resultEdgeList->tail = new Vertex();
+                resultEdgeList->head->name = pre;
+                resultEdgeList->tail->name = zz;
+                pre = zz;
+                resultEdgeList->cap = cnt++;
+                resultEdgeList->flowval = zLen;
             }
             totCost -= e->flowval;  
         }
@@ -289,12 +300,12 @@ int main(int argc, char** argv)
     
     for(Edge *e = resultEdgeHead; e; e = e->next)
         cout << e->head->name << " -> " << e->tail->name <<endl;
-    /*
+    
     Gplot *gp = new Gplot();
     gp->gp_add(resultEdgeHead);
     gp->gp_dump(true);
     gp->gp_export(argv[2]);
-*/
+
 
 
     return 0;
