@@ -23,7 +23,7 @@ using namespace std;
 NetworkManager *nm;
 deque<Edge *> resultEdge;
 map<Vertex *, vector<Edge *>> vlist;
-    map<string, map<string, vector<pair<string, int>>>> spMap;
+map<string, map<string, vector<pair<string, int>>>> spMap;
 
 void findEulerCircuit(Vertex *x)
 {
@@ -33,8 +33,6 @@ void findEulerCircuit(Vertex *x)
             e->cap--;
             findEulerCircuit(e->tail);
             resultEdge.push_front(e);
-            cout << e->flowval << " " << e->head->name << " -> " << e->tail->name << endl;
-            cout << spMap[e->head->name][e->tail->name].size() << endl;
         }
     }
 }
@@ -271,7 +269,7 @@ int main(int argc, char** argv)
             for(int i = 1; i < spMap[e->head->name][e->tail->name].size(); i++) {
                 string zz = spMap[e->head->name][e->tail->name][i].first;
                 int zLen = spMap[e->head->name][e->tail->name][i].second;
-                cout << " x-> " << zz;
+                cout << " -> " << zz;
                 
                 if(resultEdgeHead == NULL) {
                     resultEdgeHead = new Edge();
@@ -293,8 +291,6 @@ int main(int argc, char** argv)
     }
     cout << endl << "total cost: " << totCost << endl;
     
-    for(Edge *e = resultEdgeHead; e; e = e->next)
-        cout << e->head->name << " -> " << e->tail->name <<endl;
     
     Gplot *gp = new Gplot();
     gp->gp_add(resultEdgeHead);
