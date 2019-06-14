@@ -38,7 +38,9 @@ note: you probably will see some fake-mininet output, just ignore them.
 
 #### png 
 
+```
 each edge have 2 value describe as (x) y, x means edge cost, y means the order of postman walk.
+```
 
 ### example
 
