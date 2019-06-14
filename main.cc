@@ -183,9 +183,6 @@ int main(int argc, char** argv)
 
     // matching edge
     
-    int flow = 0;
-    int cost = 0;
-
     map<Vertex *, Vertex *> extraPath;
     set<Vertex *> inQ;
 
@@ -231,8 +228,6 @@ int main(int argc, char** argv)
             e = mcmf->get_edge(a, extraPath[a]);
             e->cap += df;
         }
-        flow += df;
-        cost += df * d[dst];
     }
     
     for (auto iter = plusNode.begin(); iter != plusNode.end(); ++iter) {
